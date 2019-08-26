@@ -25,7 +25,7 @@ break;
 case 3: display();
 break;
 case 4: exit(0);
-default: printf("\nWrong Choice!!");
+default: printf("\ninvalid");
 }
 }
 }
@@ -34,7 +34,7 @@ void push()
 int val;
 if(top==stack_size-1)
 {
-printf("\nStack is full!!");
+printf("\nStack is full ");
 }
 else
 {
