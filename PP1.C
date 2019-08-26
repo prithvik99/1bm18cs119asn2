@@ -25,7 +25,7 @@ break;
 case 3: display();
 break;
 case 4: exit(0);
-default: printf("\ninvalid");
+default: printf("\ninva");
 }
 }
 }
