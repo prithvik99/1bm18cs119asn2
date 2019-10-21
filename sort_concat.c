@@ -39,42 +39,8 @@ Node insert_end(Node first,int item)
 }
 
 
- Node delete_beg(Node first)
- {
-  Node temp;
-  if(first==NULL)
-  printf("List is empty\n");
-  else
-  {
-  temp=first;
-  printf("Item deleted is %d\n",temp->data);
-  temp=temp->next;
-  free(first);
-  }
-  return temp;
  
- }
  
- Node delete_end(Node first)
- {
-  Node curr,prev;
-  if(first==NULL)
-  printf("List is empty\n");
-  else
-  {
-  curr=first;
-  prev=NULL;
-  while(curr->next!=NULL)
-  {
-  prev=curr;
-  curr=curr->next;
-  }
-  printf("Item deleted is %d\n",curr->data);
-  prev->next=NULL;
-  free(curr);
-  }
-  return first;
- }
  
 Node sort(Node first)
 {
@@ -86,15 +52,16 @@ if(first==NULL)
 printf("EMPTY\n");
 else
 {
-for(temp1=first;temp1!=NULL;temp1=temp1->next)
+for(temp1=first;temp1->next!=NULL;temp1=temp1->next)
 {
 for(temp2=temp1->next;temp2!=NULL;temp2=temp2->next)
 {
 
-
-swap=temp1->data;
+if(temp1->data>temp2->data)
+{swap=temp1->data;
 temp1->data=temp2->data;
 temp2->data=swap;
+}
 
 }
 
@@ -118,19 +85,19 @@ return temp;
 
 Node reverse(Node first)
 {
-Node prev,curr,temp;
+Node curr,prev,temp;
 prev=NULL;
 curr=first;
+
 while(curr!=NULL)
 {
 temp=curr->next;
-temp->next=curr;
+curr->next=prev;
 prev=curr;
-curr=curr->next;
+curr=temp;
 }
-first->next=NULL;
 first=prev;
-return first;
+return  first;
 }
 void display(Node first)
 {
@@ -166,10 +133,7 @@ printf("3.sorted list 1\n");
 printf("4.sorted list 2\n");
 printf("5.MERG\n");
 printf("6.reverse\n");
-//printf("4.delete in front\n");
-//printf("5.delete in end\n");
-//printf("6.delete at any position\n");
-//printf("7.display\n");
+
 printf("7.exit\n");
 scanf("%d",&a);
     switch(a)
@@ -191,18 +155,10 @@ scanf("%d",&a);
          case 4:  first2=sort(first2);
            display(first2);
            break;
-           case 6: first1=reverse(first1);
+         case 6: first1=reverse(first1);
             display(first1);
             break;
-       //  case 5: first=delete_end(first);
-         // break;
-        // case 6: printf("Enter the position to be deleted: ");
-              // scanf("%d",&pos);
-              //   first=delete_pos(first,pos);
-              //   break;  
-         
-        // case 7: display(first);
-        //         break;
+     
          case 7: exit(0);
          default: printf("Invalid choice\n");
        }
