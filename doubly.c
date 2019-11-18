@@ -1,176 +1,162 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<conio.h>
+#include<process.h>
 struct node
 {
 	int data;
 	struct node *next;
 	struct node *prev;
 };
-typedef struct node * NODE;
-NODE getnode();
-NODE del_val(NODE head,int val);
-NODE insert_front(NODE head,int item);
-NODE insert_left(NODE head,int item,NODE n);
-void display(NODE head);
-NODE getnode()
+typedef struct node *Node;
+Node getnode()
 {
-	NODE p;
-	p=(NODE)malloc(sizeof(struct node));
-	if(p!=NULL)
-	return p;
-	else
-	{
-	printf("memory could not be allocated\n");
-	exit(0);
-	}
+	Node temp;
+	temp=(Node)malloc(sizeof(struct node));
+	return temp;
 }
-NODE insert_front(NODE head,int item)
+Node insert_end(Node first,int item)
 {
-	NODE newn;
-	newn=getnode();
-	newn->data=item;
-	newn->prev=NULL;
-	if(head==NULL)
-	{
-	newn->next=NULL;
-	head=newn;
-	}
+	Node temp;
+	Node curr=first;
+	temp=getnode();
+	temp->data=item;
+	temp->next=NULL;
+	temp->prev=NULL;
+	if(first==NULL)
+	return temp;
 	else
 	{
-	newn->next=head;
-	head->prev=newn;
-	head=newn;
+		while(curr->next!=NULL)
+		curr=curr->next;
+	      //	curr->next=temp;
+		temp->prev=curr;
+		curr->next=temp;
+		temp->next=NULL;
 	}
-	return head;
+	return first;
 }
-NODE insert_left(NODE head,int item,NODE n)
+Node insert_pos(Node first)
 {
-	NODE newn;
-	newn=getnode();
-	newn->data=item;
-	if(n->prev==NULL)
-	{
-	newn->next=n;
-	n->prev=newn;
-	newn->prev=NULL;
-	head=newn;
-	}
-	else
-	{
-	n->prev->next=newn;
-	newn->prev=n->prev;
-	newn->next=n;
-	n->prev=newn;
-	}
-	return head;
-}
-NODE del_val(NODE head,int val)
-{
-	NODE p=head;
-	if(head==NULL)
-	{
-	printf("list is empty\n");
-	return head;
-	}
-	if(head->next==NULL)
-	{
-	if(head->data==val)
-	{
-	free(head);
-	return NULL;
-	}
-	else
-	{
-	printf("value not found\n");
-	return head;
-	}
-	}
-	while(p!=NULL)
-	{
-	if(p->data==val)
-	{
-	if(p->next==NULL)
-	{
-	p->prev->next==NULL;
-	free(p);
-	return head;
-	}
-	else
-	{
-	p->prev->next=p->next;
-	p->next->prev=p->prev;
-	free(p);
-	return head;
-	}
-	}
-	p=p->next;
-	}
-	if(p==NULL)
-	{
-	printf("value not found\n");
-	return head;
-	}
-}
 
-void display(NODE head)
+	Node temp,curr,p;
+	 int count,num,val;
+	 printf("Enter the data:\n");
+	 scanf("%d",&num);
+	 printf("Enter the value of node\n");
+	 scanf("%d",&val);
+	curr=first;
+	temp=getnode();
+	temp->data=num;
+	temp->prev=NULL;
+	temp->next=NULL;
+	while(curr!=NULL)
+		{
+			if(curr->data==val)
+			break;
+			curr=curr->next;
+		}
+		if(curr==NULL)
+		{printf("key not found\n");
+		return first;
+		}
+		if(curr==first)
+		{
+		temp->next=first;
+		first->prev=temp;
+		first=temp;
+		return first;
+		}
+		 p=curr->prev;
+		 p->next=temp;
+		 temp->prev=p;
+		 curr->prev=temp;
+		 temp->next=curr;
+		 return first;
+
+}
+Node delete_pos(Node first,int item)
 {
-	NODE p;
-	if(head==NULL)
+     //	int count=1;
+	Node curr=first;
+	while(curr!=NULL)
 	{
-	printf("list is empty\n");
-	exit(0);
+	     //	count=count+1;
+		if(curr->data==item)
+		{
+			(curr->prev)->next=curr->next;
+			(curr->next)->prev=curr->prev;
+			free(curr);
+			break;
+		}
+		else
+		curr=curr->next;
 	}
-	p=head;
-	while(p!=NULL)
+	if(curr->next==NULL&&curr->data!=item)
+	printf("invalid value\n");
+	return first;
+}
+void display(Node first)
+{
+	Node temp=first;
+	if(first==NULL)
+	printf("LIST EMPTY\n");
+	else
 	{
-	printf("%d\n", p->data);
-	p=p->next;
+		while(temp!=NULL)
+		{
+			printf("%d->",temp->data);
+			temp=temp->next;
+		}
+		printf("\n");
 	}
 }
-int main()
+void main()
 {
-	NODE head=NULL;
-	NODE p;
-	int ch,item,n,i,c,val,pos;
-	printf("enter\n1.create a doubly linked list\n2.insert node to the left of given node\n3.delete a node based on specific value\n4.display\n-1.exit");
-	scanf("%d",&ch);
-	while(ch!=-1)
+	Node first;
+	int item,n,i;
+	i=1;
+	clrscr();
+	while(1)
 	{
-	switch(ch)
-	{
-	case 1:printf("enter the no.of items\n");
-	scanf("%d",&n);
-	printf("enter the items\n");
-	for(i=0;i<n;i++)
-	{
-	scanf("%d",&item);
-	head=insert_front(head,item);
+		printf("1.Create doubly linked list\n");
+		printf("2.insert a new node to the left of the node\n");
+		printf("3.delete the node based on a specific value\n");
+		printf("4.display\n");
+		printf("5.exit\n");
+		scanf("%d",&n);
+		switch(n)
+		{
+			case 1:
+			printf("Enter 0 to stop\n");
+			printf("Enter data:\n");
+			scanf("%d",&i);
+			while(i!=0)
+			{
+			first=insert_end(first,i);
+			printf("enter data:\n");
+			scanf("%d",&i);
+			}
+			break;
+			case 2:
+		      //	printf("enter position of node to insert new node\n");
+		       //	scanf("%d",&i);
+		       //	printf("enter value\n");
+		       //	scanf("%d",&item);
+			first=insert_pos(first);
+			break;
+			case 3:
+			printf("Enter value to be deleted\n");
+			scanf("%d",&item);
+			first=delete_pos(first,item);
+			break;
+			case 4:
+			printf("LIST:\n");
+			display(first);
+			break;
+			case 5:
+			exit(0);
+
+			}
+		}
 	}
-	break;
-	case 2:c=0;
-	printf("enter the item\n");
-	scanf("%d",&item);
-	printf("enter the node to the left of which new node is inserted\n");
-	scanf("%d",&pos);	
-	p=head;
-	while(p!=NULL)
-	{
-	c++;
-	if(c==pos)
-	head=insert_left(head,item,p);
-	p=p->next;
-	}
-	break;
-	case 3:printf("enter the value of the node to be deleted\n");
-	scanf("%d",&val);
-	head=del_val(head,val);
-	break;
-	case 4:display(head);
-	break;
-	default:printf("invalid input\n");
-	}
-	printf("enter next choice or -1 to exit\n");
-	scanf("%d",&ch);
-	}
-	return 0;
-}
+
